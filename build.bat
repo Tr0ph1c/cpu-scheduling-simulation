@@ -1,1 +1,1 @@
-g++ simul.cpp -o simul
+g++ main.cpp -o main
