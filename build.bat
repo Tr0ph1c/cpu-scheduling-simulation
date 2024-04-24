@@ -1,0 +1,1 @@
+g++ simul.cpp -o simul
