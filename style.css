@@ -1,39 +1,62 @@
-/* CSS styles */
+:root {
+    --button: #4CAF50;
+    --button-dark: #2c652e;
+    --text-dark: #333333;
+    --text: #555555; 
+    --white: #f9f9f9;
+}
+
+* {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    height: max-content;
+
+    display: flex;
+    justify-content: flex-start;
+}
+
+.BG {
+    position: fixed;
+    width: 100%;
+    min-height: 100%;
     background-image: url(leone-venter-VieM9BdZKFo-unsplash.jpg);
     background-size: cover;
-    background-repeat:no-repeat ;
+    filter: brightness(90%);
+    opacity: 0.7;
+    z-index: -1;
 }
 
 .container {
+    height: 100%;
+    width: 100%;
+    margin: 50px;
+
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
-    height: 100vh;
+    gap: 90px;
 }
 
-.content {
-    background-color: #f9f9f9;
-    color: #333333;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 30px;
-    max-width: 800px;
+.section {
+    height: fit-content;
     width: 100%;
 }
 
-.description {
-    margin-bottom: 20px;
-}
-
 h1, h2 {
-    color: #333333;
+    color: var(--text-dark);
 }
 
 p {
-    color: #555555;
+    color: var(--text);
 }
 
 ul {
@@ -45,8 +68,8 @@ li {
     margin-bottom: 10px;
 }
 
-.button {
-    background-color: #4CAF50;
+button {
+    background-color: var(--button-dark);
     border: none;
     color: white;
     padding: 12px 24px;
@@ -56,21 +79,71 @@ li {
     transition: background-color 0.3s;
 }
 
-.button a {
-    color:#f9f9f9;
+button a {
+    color: var(--white);
     text-decoration: none;
 }
 
-.button:hover {
-    background-color: #45a049;
+button:hover {
+    background-color: var(--button);
 }
 
 .A {
-    color:#45a049;
+    color:  var(--button);
     font-size: 40px;
 }
 
 .D {
     color: red;
     font-size: 40px;
+}
+
+.preq {
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: left;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.inp-box {
+    width: 250px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.inp-box input {
+    font-size: 15px;
+}
+
+.preq input {
+    width: 50px;
+}
+
+table, th, td {
+    border: 1px solid;
+    height: 20px;
+}
+
+th {
+    background-color: var(--button-dark);
+    border-color: black;
+    color: var(--white);
+    font-weight: bold;
+}
+
+td {
+    width: 70px;
+    text-align: center;
+}
+
+.edit, input {
+    background-color: green;
+}
+
+table {
+    border-collapse: collapse;
+    background-color: var(--button);
 }
