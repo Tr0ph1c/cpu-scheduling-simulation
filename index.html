@@ -36,36 +36,26 @@
     
                     <div class="inp-box">
                         <label for="NOP">Number of processes: </label>
-                        <input type="text" id="NOP">
+                        <input type="number" id="NOP" onchange="change();">
                     </div>
                 </div>
 
-                <!-- <table>
-                    
-                    <tr>
-                        <th>PID</th>
-                        <th>BT</th>
-                        <th>AT</th>
-                        <th>CT</th>
-                        <th>WT</th>
-                        <th>TT</th>
-                        <th>RT</th>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td class="edit"><div id="editable" contenteditable="true"></div></td>
-                        <td class="edit"><div id="editable" contenteditable="true"></div></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    
-                    </tr>
-                    
-                  </table> -->
-                  <span id="s"></span>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>PID</th>
+                            <th>BT</th>
+                            <th>AT</th>
+                            <th>CT</th>
+                            <th>WT</th>
+                            <th>TT</th>
+                            <th>RT</th>
+                        </tr>
+                    </tbody>
+                </table>
+                <table id="s"></table>
 
-                  <button style="margin-top: 10px;" id="btn">Start Simulation</button>
+                <button style="margin-top: 10px;" id="btn">Start Simulation</button>
             </div>
         </div>
 
@@ -73,21 +63,15 @@
     </body>
 
     <script>
-        let btn = document.getElementById("btn");
-        btn.addEventListener("click",change);
-        function change(){
+        change();
+        let btn = document.getElementById("NOP");
+        function change() {
+            console.log("press");
             let x = parseInt(document.getElementById("NOP").value);
+            console.log(x);
+            if (x < 1 || isNaN(x) === true) x = 1;
             let y = "";
-            y += "<table>"    
-                y += "<tr>";
-                    y += "<th>PID</th>"
-                    y += "<th>BT</th>"
-                    y += "<th>AT</th>"
-                    y += "<th>CT</th>"
-                    y += "<th>WT</th>"
-                    y += "<th>TT</th>"
-                    y += "<th>RT</th>"
-                y += "</tr>"
+
             for(i = 0;i<x;i++){
                 y += "<tr>"
                     y += "<td></td>"
@@ -99,7 +83,7 @@
                     y += "<td></td>"
                 y += "</tr>"
             }
-            y += "</table>"
+
             document.getElementById("s").innerHTML = y;
         }
         

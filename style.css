@@ -132,6 +132,7 @@ th {
     border-color: black;
     color: var(--white);
     font-weight: bold;
+    width: 70px;
 }
 
 td {
