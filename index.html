@@ -40,7 +40,8 @@
                     </div>
                 </div>
 
-                <table>
+                <!-- <table>
+                    
                     <tr>
                         <th>PID</th>
                         <th>BT</th>
@@ -58,10 +59,13 @@
                         <td></td>
                         <td></td>
                         <td></td>
+                    
                     </tr>
-                  </table>
+                    
+                  </table> -->
+                  <span id="s"></span>
 
-                  <button style="margin-top: 10px;">Start Simulation</button>
+                  <button style="margin-top: 10px;" id="btn">Start Simulation</button>
             </div>
         </div>
 
@@ -69,6 +73,36 @@
     </body>
 
     <script>
+        let btn = document.getElementById("btn");
+        btn.addEventListener("click",change);
+        function change(){
+            let x = parseInt(document.getElementById("NOP").value);
+            let y = "";
+            y += "<table>"    
+                y += "<tr>";
+                    y += "<th>PID</th>"
+                    y += "<th>BT</th>"
+                    y += "<th>AT</th>"
+                    y += "<th>CT</th>"
+                    y += "<th>WT</th>"
+                    y += "<th>TT</th>"
+                    y += "<th>RT</th>"
+                y += "</tr>"
+            for(i = 0;i<x;i++){
+                y += "<tr>"
+                    y += "<td></td>"
+                    y += "<td class=edit><div id=editable contenteditable=true></div></td>"
+                    y += "<td class=edit><div id=editable contenteditable=true></div></td>"
+                    y += "<td></td>"
+                    y += "<td></td>"
+                    y += "<td></td>"
+                    y += "<td></td>"
+                y += "</tr>"
+            }
+            y += "</table>"
+            document.getElementById("s").innerHTML = y;
+        }
+        
         
     </script>
 </html>
