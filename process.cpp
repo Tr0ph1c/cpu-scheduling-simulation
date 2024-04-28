@@ -2,7 +2,7 @@
 
 using namespace std;
 
-struct process {
+typedef struct s_Process {
     size_t pid;
     size_t burst_time;
     size_t arrival_time;
@@ -10,17 +10,17 @@ struct process {
     size_t waiting_time;
     size_t turnaround_time;
     size_t response_time;
-};
+} Process;
 
-struct Node {
-    process data;
+typedef struct s_Node {
+    Process data;
     Node* next;
-};
+} Node;
 
-struct Queue {
+typedef struct s_Queue {
     Node* front;
     Node* rear;
-};
+} Queue;
 
 Queue* createQueue() {
     Queue* q = new Queue;
@@ -28,7 +28,7 @@ Queue* createQueue() {
     return q;
 }
 
-void Enqueue(Queue* q, process p) {
+void Enqueue(Queue* q, Process p) {
     Node* newNode = new Node;
     newNode->data = p;
     newNode->next = nullptr;
@@ -42,12 +42,12 @@ void Enqueue(Queue* q, process p) {
     q->rear = newNode;
 }
 
-process Dequeue(Queue* q) {
+Process Dequeue(Queue* q) {
     if (q->front == nullptr)
         throw "Queue is empty";
 
     Node* temp = q->front;
-    process p = temp->data;
+    Process p = temp->data;
     q->front = q->front->next;
 
     if (q->front == nullptr)

@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include <string>
+#include <cstring>
 
 #include "simul.cpp"
 
@@ -9,7 +9,9 @@
 
 using namespace std;
 
-void LoadAllProccesses () {
+int raw_data[202];
+
+void LoadAllInputs () {
     ifstream inputs(INPUT_FILE);
 
     if (!inputs.is_open()) { 
@@ -19,8 +21,13 @@ void LoadAllProccesses () {
 
     string line;
 
-    while (getline(inputs, line)) {
-        // Load the line as a process
+    getline(inputs, line);
+    raw_data[0] = stoi(line);
+    getline(inputs, line);
+    raw_data[1] = stoi(line);
+
+    for (size_t i = 0; getline(inputs, line); ++i) {
+        raw_data[2+i] = stoi(line);
     }
 
     inputs.close();
@@ -41,9 +48,9 @@ void SaveResults () {
 }
 
 int main () {
-    LoadAllProccesses();
+    LoadAllInputs();
 
-    StartSimulation();
+    StartSimulation(raw_data);
 
     SaveResults();
 }

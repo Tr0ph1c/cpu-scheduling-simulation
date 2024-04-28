@@ -5,31 +5,33 @@ $outputs_file = fopen("outputs", "r") or die("cant open outputs");
 
 
 // SET VARIABLES
+$NOP = 1;
 $QT = 10;
-if (isset($_REQUEST["QTvar"])) {
-    $QT = $_REQUEST["QTvar"];
-}
 
 if($_SERVER['REQUEST_METHOD'] === 'GET' &&
-isset($_REQUEST["NOPvar"])) 
+isset($_REQUEST["NOPvar"]) &&
+isset($_REQUEST["QTvar"])) 
 {
+    $QT = $_REQUEST["QTvar"];
     $NOP = $_REQUEST["NOPvar"];
     
+    fwrite($inputs_file, $_GET["QTvar"]."\n");
+    fwrite($inputs_file, $_GET["NOPvar"]."\n");
+
     for ($i = 0; $i < intval($NOP); $i++) {
-        if (isset($_GET["P${i}BT"])) fwrite($inputs_file, $_GET["P${i}BT"]." ".$_GET["P${i}AT"]."\n");
+        if (isset($_GET["P${i}BT"])) fwrite($inputs_file, $_GET["P${i}BT"]."\n");
+        if (isset($_GET["P${i}AT"])) fwrite($inputs_file, $_GET["P${i}AT"]."\n");
     }
 }
 // END SET VARIABLES
 
 
-/*
 // GET ALL OUTPUTS FROM OUTPUTS FILE
 $raw_arr = array();
 while (!feof($outputs_file)) {
     array_push($raw_arr, fgets($outputs_file));
 }
 // END GET ALL OUTPUTS FROM OUTPUTS FILE
-*/
 
 
 fclose($inputs_file);
@@ -70,12 +72,12 @@ fclose($outputs_file);
                 <div class="preq">
                     <div class="inp-box">
                         <label for="QT">Quantum time (ms): </label>
-                        <input type="number" id="QT" min="0.1" max="1000" step="0.1" onchange="setQT();" value="<?php echo $QT; ?>">
+                        <input type="number" id="QT" min="1" max="1000" step="1" onchange="setQT();" value="<?php echo $QT; ?>">
                     </div>
     
                     <div class="inp-box">
                         <label for="NOP">Number of processes: </label>
-                        <input type="number" id="NOP" min="1" max="100" step="1" onchange="setNOP();" value=<?php echo count(file('inputs')) ?>>
+                        <input type="number" id="NOP" min="1" max="100" step="1" onchange="changeNOP();" value=<?php echo $NOP ?>>
                     </div>
                 </div>
 
@@ -93,7 +95,31 @@ fclose($outputs_file);
                     </tbody>
                 </table>
                 <form action="index.php" method="get">
-                    <table id="s"></table>
+                    <?php
+                    if($_SERVER['REQUEST_METHOD'] === 'GET' && count($raw_arr) != 0) {
+                        $num_of_rows = $NOP;
+                        echo '<table id="s">';
+                        for ($i=0; $i < $num_of_rows; $i++) {
+
+                            echo '<tr>';
+                            echo "<td>P{$i}</td>";
+                            echo "<td class=edit><input class='input-td' type=number name='P${i}BT' value=";
+                            echo $_GET["P${i}BT"];
+                            echo "></td>";
+                            echo "<td class=edit><input class='input-td' type=number name='P${i}AT' value=";
+                            echo $_GET["P${i}AT"];
+                            echo "></td>";
+                            echo "<td id='CT${i}'></td>";
+                            echo "<td id='WT${i}'></td>";
+                            echo "<td id='TT${i}'></td>";
+                            echo "<td id='RT${i}'></td>";
+                            echo '</tr>';
+                        }
+                        echo '</table>';
+                    } else {
+                        echo '<table id="s"></table>';
+                    }
+                    ?>
     
                     <button style="margin-top: 10px;" id="btn">Start Simulation</button>
                     <input type="hidden" id="NOPvar" name="NOPvar"/>
@@ -116,18 +142,18 @@ fclose($outputs_file);
         let NOP = document.getElementById("NOP");
         let QT = document.getElementById("QT");
 
-        function setNOP() {
+        function changeNOP() {
             let x = parseInt(document.getElementById("NOP").value);
             let NOPvar = document.getElementById("NOPvar");
             NOPvar.value=x;
-            if (x < 1 || isNaN(x) === true) x = 1;
+
             let y = "";
 
             for(let i = 0; i < x; i++) {
                 y += "<tr>";
                     y += `<td>P${i}</td>`;
-                    y += `<td class=edit><input style="width:65px;border:none;text-align:center;" type=number name="P${i}BT"></td>`;
-                    y += `<td class=edit><input style="width:65px;border:none;text-align:center;" type=number name="P${i}AT"></td>`;
+                    y += `<td class=edit><input class='input-td' type=number name="P${i}BT"></td>`;
+                    y += `<td class=edit><input class='input-td' type=number name="P${i}AT"></td>`;
                     y += `<td id="CT${i}"></td>`;
                     y += `<td id="WT${i}"></td>`;
                     y += `<td id="TT${i}"></td>`;
@@ -135,12 +161,22 @@ fclose($outputs_file);
                 y += "</tr>";
             }
 
-            document.getElementById("s").innerHTML = y;
+            try {
+                document.getElementById("s").innerHTML = y;
+            } catch (error) {
+                console.log("js table element disabled <= setNOP()");
+            }
         }
         
+        function setNOP() {
+            let x = parseInt(document.getElementById("NOP").value);
+            let NOPvar = document.getElementById("NOPvar");
+            NOPvar.value=x;
+        }
+
         function setQT() {
             let x = parseInt(document.getElementById("QT").value);
-            let NOPvar = document.getElementById("QTvar");
+            let QTvar = document.getElementById("QTvar");
             QTvar.value=x;
         }
     </script>

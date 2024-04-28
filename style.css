@@ -140,6 +140,12 @@ td {
     text-align: center;
 }
 
+.input-td {
+    width:65px;
+    border:none;
+    text-align:center;
+}
+
 .edit, input {
     background-color: green;
 }
