@@ -36,7 +36,7 @@ vector<float> StartSimulation (int* raw_data) {
 	// and when a process is done insert it into finished queue
 	while (remaining_processes > 0) {
         for (int i = 0; i < NOP; ++i) {
-            if (processes[i].arrival_time == current_time) {
+            if (processes[i].arrival_time >= current_time) {
                 Enqueue(ready_queue, processes[i]);
             }
         }
