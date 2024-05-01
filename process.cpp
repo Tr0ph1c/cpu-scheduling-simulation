@@ -2,61 +2,81 @@
 
 using namespace std;
 
-typedef struct s_Process {
-    size_t pid;
-    size_t burst_time;
-    size_t arrival_time;
-    size_t completion_time;
-    size_t waiting_time;
-    size_t turnaround_time;
-    size_t response_time;
-} Process;
+class Process {
+    public:
+    size_t pid = 0;
+    size_t burst_time = 0;
+    size_t burst_time_left = 0;
+    size_t arrival_time = 0;
+    size_t completion_time = 0;
+    size_t waiting_time = 0;
+    size_t turnaround_time = 0;
+    size_t response_time = -1;
+};
 
-typedef struct s_Node {
-    Process data;
-    s_Node* next;
-} Node;
+class Node {
+    public:
+    Process* data;
+    Node* next;
 
-typedef struct s_Queue {
-    Node* front;
-    Node* rear;
-} Queue;
-
-Queue* createQueue() {
-    Queue* q = new Queue;
-    q->front = q->rear = nullptr;
-    return q;
-}
-
-void Enqueue(Queue* q, Process p) {
-    Node* newNode = new Node;
-    newNode->data = p;
-    newNode->next = nullptr;
-
-    if (q->rear == nullptr) {
-        q->front = q->rear = newNode;
-        return;
+    Node () {
+        data = nullptr;
+        next = nullptr;
     }
 
-    q->rear->next = newNode;
-    q->rear = newNode;
-}
+    Node (Process* _data, Node* _next) {
+        data = _data;
+        next = _next;
+    }
 
-Process Dequeue(Queue* q) {
-    if (q->front == nullptr)
-        throw "Queue is empty";
+    ~Node () {
+        delete data;
+        delete next;
+    }
+};
 
-    Node* temp = q->front;
-    Process p = temp->data;
-    q->front = q->front->next;
+class Queue {
+    public:
+    Node* front;
+    Node* rear;
 
-    if (q->front == nullptr)
-        q->rear = nullptr;
+    Queue () {
+        front = nullptr;
+        rear = nullptr;
+    }
 
-    delete temp;
-    return p;
-}
+    ~Queue () {
+        while (front != rear) {
+            Node* toDelete = front;
+            front = front->next;
+            delete toDelete;
+        }
+    }
 
-bool isEmpty(Queue* q) {
-    return !(q->front);
-}
+    bool isEmpty () { return !front; }
+
+    void Enqueue (Process* p) {
+        Node* newNode = new Node(p, nullptr);
+
+        if (rear == nullptr) {
+            front = rear = newNode;
+            return;
+        }
+
+        rear->next = newNode;
+        rear = newNode;
+    }
+
+    Process* Dequeue () {
+        if (isEmpty()) throw "Queue is empty";
+
+        Process* ptr = front->data;
+        Node* temp = front;
+        front = front->next;
+
+        if (front == nullptr) rear = nullptr;
+
+        delete temp;
+        return ptr;
+    }
+};
