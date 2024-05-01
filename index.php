@@ -144,6 +144,7 @@ fclose($inputs_file);
                 <h1>Gantt Chart</h1>
                 <div class="gantt">
                 <?php
+                if (isset($gantt_chart)) {
                     for ($i = 0; $i < (count($gantt_chart) / 3) - 1; $i++) {
                         $Pi = $i * 3;
                         $Si = 1 + $i * 3;
@@ -153,10 +154,10 @@ fclose($inputs_file);
                         echo "<div class='slot'>";
                         echo "<div class='frame'><h4>$gantt_chart[$Pi]</h4></div>";
                         echo "<p>$gantt_chart[$Si]:$gantt_chart[$Ei]</p>";
-                        //echo "<p>$gantt_chart[$Ei]</p>";
                         echo "</div>";
                         echo "</div>";
                     }
+                }
                 ?>
                 </div>
             </div>
