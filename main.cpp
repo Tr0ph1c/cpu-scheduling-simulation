@@ -33,16 +33,17 @@ void LoadAllInputs () {
     inputs.close();
 }
 
-void SaveResults () {
-    ifstream outputs(OUTPUT_FILE);
+void SaveResults (int* raw_out_data) {
+    ofstream outputs(OUTPUT_FILE);
 
     if (!outputs.is_open()) { 
         cerr << "Error opening the file!" << endl;
         exit(1);
     }
 
-    // Put results in file
-    cout << "Saved results";
+    for (size_t i = 0; raw_out_data[i] != NULL; i++) {
+        outputs << raw_out_data[i] + "\n";
+    }
 
     outputs.close();
 }
@@ -50,7 +51,7 @@ void SaveResults () {
 int main () {
     LoadAllInputs();
 
-    StartSimulation(raw_data);
+    int* raw_out_data = StartSimulation(raw_data);
 
-    SaveResults();
+    SaveResults(raw_out_data);
 }
