@@ -56,3 +56,7 @@ Process Dequeue(Queue* q) {
     delete temp;
     return p;
 }
+
+bool isEmpty(Queue* q) {
+    return !(q->front);
+}
