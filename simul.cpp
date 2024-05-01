@@ -1,15 +1,16 @@
 #include <iostream>
+#include <vector>
 
 #include "process.cpp"
 
 Queue* ready_queue;
 Queue* finished_queue;
 
-int* StartSimulation (int* raw_data) {
+vector<float> StartSimulation (int* raw_data) {
 	// Set variables (QT, NOP, OUT_ARRAY)
 	size_t QT = static_cast<size_t>(raw_data[0]);
 	size_t NOP = static_cast<size_t>(raw_data[1]);
-    int* OUT_ARRAY = new int[NOP];
+    vector<float> OUT_ARRAY = vector(3 + 3*NOP, 0.0f);
 
 	// Load data into processes
 	Process* processes = new Process[NOP];
@@ -28,7 +29,6 @@ int* StartSimulation (int* raw_data) {
     finished_queue = createQueue();
 	size_t current_time = 0;
     int remaining_processes = NOP;
-    int quantum_remaining = 0;
     int current_process_index = 0;
 
 	// Loop over ready queue and push back as necessary
@@ -51,30 +51,45 @@ int* StartSimulation (int* raw_data) {
             size_t execution_time = std::min(QT, current_process.burst_time);
             current_process.burst_time -= execution_time;
             current_time += execution_time;
-            quantum_remaining = (current_process.burst_time > 0) ? QT - execution_time : 0;
 
            if (current_process.burst_time == 0) {
                 current_process.completion_time = current_time;
                 current_process.turnaround_time = current_process.completion_time - current_process.arrival_time;
-				// WT = TAT - BT
-                current_process.waiting_time = current_process.turnaround_time - (current_process.completion_time - execution_time);
-				// Fill out array with all info
-                OUT_ARRAY[current_process.pid] = current_process.completion_time;
+                current_process.waiting_time = current_process.turnaround_time - current_process.burst_time;
                 Enqueue(finished_queue, current_process); 
                 remaining_processes--;
+
+				// FORMAT:
+				// avg. Waiting T
+				// avg. Turnaround T
+				// avg. Response T
+				// Pn WT
+				// Pn TAT
+				// Pn RT
+                OUT_ARRAY[3 + current_process.pid * 3] = current_process.waiting_time;
+				OUT_ARRAY[4 + current_process.pid * 3] = current_process.turnaround_time;
+				OUT_ARRAY[5 + current_process.pid * 3] = current_process.response_time;
+
+				OUT_ARRAY[0] += current_process.waiting_time;
+				OUT_ARRAY[1] += current_process.turnaround_time;
+				OUT_ARRAY[2] += current_process.response_time;
             } else {
                 Enqueue(ready_queue, current_process); 
             }
         } else {
             current_time++; 
         }
-
-		// elaborate
-        if (quantum_remaining == 0 && !isEmpty(ready_queue)) {
-            Enqueue(ready_queue, Dequeue(ready_queue));
-        }
     }
 
+	// Finish calculation of averages
+	OUT_ARRAY[0] /= NOP;
+	OUT_ARRAY[1] /= NOP;
+	OUT_ARRAY[2] /= NOP;
+
+	// Dealloc memory
 	delete[] processes;
+	delete ready_queue;   	// Individual nodes not dealloced
+	delete finished_queue;  // hopefully system handles memory leaks
+
 	return OUT_ARRAY;
 }

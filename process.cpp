@@ -14,7 +14,7 @@ typedef struct s_Process {
 
 typedef struct s_Node {
     Process data;
-    Node* next;
+    s_Node* next;
 } Node;
 
 typedef struct s_Queue {

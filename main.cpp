@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include <cstring>
+#include <vector>
 
 #include "simul.cpp"
 
@@ -33,7 +33,7 @@ void LoadAllInputs () {
     inputs.close();
 }
 
-void SaveResults (int* raw_out_data) {
+void SaveResults (vector<float> raw_out_data) {
     ofstream outputs(OUTPUT_FILE);
 
     if (!outputs.is_open()) { 
@@ -41,8 +41,8 @@ void SaveResults (int* raw_out_data) {
         exit(1);
     }
 
-    for (size_t i = 0; raw_out_data[i] != NULL; i++) {
-        outputs << raw_out_data[i] + "\n";
+    for (float i : raw_out_data) {
+        outputs << i << "\n";
     }
 
     outputs.close();
@@ -51,7 +51,7 @@ void SaveResults (int* raw_out_data) {
 int main () {
     LoadAllInputs();
 
-    int* raw_out_data = StartSimulation(raw_data);
+    vector<float> raw_out_data = StartSimulation(raw_data);
 
     SaveResults(raw_out_data);
 }
