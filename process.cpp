@@ -12,26 +12,31 @@ class Process {
     size_t waiting_time = 0;
     size_t turnaround_time = 0;
     size_t response_time = -1;
+    bool queued = false;
+
+    // overloading comparision operator to be able to sort with std::sort
+    bool operator< (Process p2) {
+        return (this->arrival_time < p2.arrival_time)? true : false;
+    }
 };
 
 class Node {
     public:
-    Process* data;
+    Process data;
     Node* next;
 
-    Node () {
-        data = nullptr;
+    Node (Process _data) {
+        data = _data;
         next = nullptr;
     }
 
-    Node (Process* _data, Node* _next) {
-        data = _data;
-        next = _next;
-    }
-
     ~Node () {
-        delete data;
         delete next;
+    } 
+
+    void Destroy () {
+        next = nullptr;
+        delete this;
     }
 };
 
@@ -46,17 +51,14 @@ class Queue {
     }
 
     ~Queue () {
-        while (front != rear) {
-            Node* toDelete = front;
-            front = front->next;
-            delete toDelete;
-        }
+        delete front; // recursively deletes all nodes ~Node()
     }
 
     bool isEmpty () { return !front; }
 
-    void Enqueue (Process* p) {
-        Node* newNode = new Node(p, nullptr);
+    void Enqueue (Process p) {
+
+        Node* newNode = new Node(p);
 
         if (rear == nullptr) {
             front = rear = newNode;
@@ -67,16 +69,16 @@ class Queue {
         rear = newNode;
     }
 
-    Process* Dequeue () {
+    Process Dequeue () {
         if (isEmpty()) throw "Queue is empty";
 
-        Process* ptr = front->data;
+        Process p = front->data;
         Node* temp = front;
         front = front->next;
 
         if (front == nullptr) rear = nullptr;
 
-        delete temp;
-        return ptr;
+        temp->Destroy();
+        return p;
     }
 };

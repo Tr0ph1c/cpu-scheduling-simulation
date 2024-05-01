@@ -41,6 +41,8 @@ void SaveResults (vector<float> raw_out_data) {
         exit(1);
     }
 
+    cout << "\n";
+
     for (float i : raw_out_data) {
         std::cout << i << "\n";
         outputs << i << "\n";

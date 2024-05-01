@@ -140,6 +140,10 @@ td {
     text-align: center;
 }
 
+.avg-table td {
+    width: 143px;
+}
+
 .input-td {
     width:65px;
     border:none;
@@ -153,4 +157,27 @@ td {
 table {
     border-collapse: collapse;
     background-color: var(--button);
+}
+
+.gantt {
+    display: flex;
+    height: fit-content;
+    width: auto;
+    gap: 5px;
+}
+
+.gantt .slot {
+    display: flex;
+    width: inherit;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.gantt .frame {
+    background-color: crimson;
+    border: solid;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
 }
