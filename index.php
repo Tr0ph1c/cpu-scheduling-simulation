@@ -54,12 +54,12 @@ fclose($inputs_file);
                 <div class="preq">
                     <div class="inp-box">
                         <label for="QT">Quantum time (ms): </label>
-                        <input type="number" id="QT" min="1" max="999" step="1" onchange="setQT();" value="<?php echo $QT; ?>">
+                        <input type="number" onkeydown='return false' id="QT" min="1" max="999" step="1" onchange="setQT();" value="<?php echo $QT; ?>">
                     </div>
     
                     <div class="inp-box">
                         <label for="NOP">Number of processes: </label>
-                        <input type="number" id="NOP" min="1" max="100" step="1" onchange="changeNOP();" value=<?php echo $NOP ?>>
+                        <input type="number" onkeydown='return false' id="NOP" min="1" max="100" step="1" onchange="changeNOP();" value=<?php echo $NOP ?>>
                     </div>
                 </div>
 
