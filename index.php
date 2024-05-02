@@ -84,11 +84,11 @@ fclose($inputs_file);
 
                             echo '<tr>';
                             echo "<td>P{$i}</td>";
-                            echo "<td class=edit><input class='input-td' min=1 max=999  type=number name='P${i}BT' value=";
-                            if (isset($_GET["P${i}BT"])) echo $_GET["P${i}BT"];
+                            echo "<td class=edit><input onkeydown='return false' required class='input-td' min=1 max=999  type=number name='P${i}BT' value=";
+                            if (isset($_GET["P${i}BT"])) echo $_GET["P${i}BT"]; else echo "1";
                             echo "></td>";
-                            echo "<td class=edit><input class='input-td' min=0 max=999  type=number name='P${i}AT' value=";
-                            if (isset($_GET["P${i}AT"])) echo $_GET["P${i}AT"];
+                            echo "<td class=edit><input onkeydown='return false' required class='input-td' min=0 max=999  type=number name='P${i}AT' value=";
+                            if (isset($_GET["P${i}AT"])) echo $_GET["P${i}AT"]; else echo "0";
                             echo "></td>";
                             // WT
                             $WTi = 4 + $i * 3;
@@ -209,9 +209,9 @@ fclose($inputs_file);
 
         function startSim() {
             document.getElementById("START_SIM").value = "1";
-
+            
             const form = document.getElementById("inputs");
-
+            
             form.submit();
         }
     </script>
