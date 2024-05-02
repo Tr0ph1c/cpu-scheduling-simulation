@@ -149,7 +149,7 @@ fclose($inputs_file);
                         $Pi = $i * 3;
                         $Si = 1 + $i * 3;
                         $Ei = 2 + $i * 3;
-                        $width = ($gantt_chart[$Ei] - $gantt_chart[$Si]) * 20;
+                        $width = ($gantt_chart[$Ei] - $gantt_chart[$Si]) * 20 + 20;
                         echo "<div style='width:${width}px'>";
                         echo "<div class='slot'>";
                         echo "<div class='frame'><h4>$gantt_chart[$Pi]</h4></div>";

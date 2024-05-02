@@ -181,3 +181,8 @@ table {
     justify-content: center;
     align-items: center;
 }
+
+.gantt p {
+    font-size: 13px;
+    text-align: center;
+}
