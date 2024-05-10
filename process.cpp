@@ -32,7 +32,7 @@ class Node {
 
     ~Node () {
         delete next;
-    } 
+    }
 
     void Destroy () {
         next = nullptr;

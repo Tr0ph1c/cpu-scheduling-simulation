@@ -17,8 +17,8 @@ vector<float> StartSimulation (int* raw_data) {
 	// Set variables (QT, NOP, OUT_ARRAY)
 	size_t QT = static_cast<size_t>(raw_data[0]);
 	size_t NOP = static_cast<size_t>(raw_data[1]);
-    vector<float> OUT_ARRAY = vector(3 + 3*NOP, 0.0f);
-	vector<int> GANTT_ARRAY = vector(300, -1);
+    vector<float> OUT_ARRAY = vector<float>(3 + 3*NOP, 0.0f);
+	vector<int> GANTT_ARRAY = vector<int>(300, -1);
 
 	// Load data into standby queue
 	Process* processes = new Process[NOP];
